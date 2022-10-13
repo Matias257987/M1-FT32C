@@ -13,7 +13,13 @@ nuevoContador()     // 2
 const otroContador = counter()
 otroContador()      // 1
 otroContador()      // 2 */
-function counter() {}
+function counter() {
+  let count = 1;
+
+  return function() {
+    return count++;
+  }
+}
 
 /* Ejercicio 2
 Tu tarea aquí es lograr, mediante un closure, que cacheFunction actúe como una memoria caché para el callback 
@@ -33,7 +39,16 @@ otra vez cálculos que ya se hicieron anteriormente.
   squareCache(5)    // invocará a square(5), almacenará el resultado y lo retornará
   squareCache(5)    // no volverá a invocar a square, simplemente buscará en la caché cuál es el resultado de square(5) y lo retornará (tip: si usaste un objeto, podés usar hasOwnProperty) */
 
-function cacheFunction(cb) {}
+function cacheFunction(cb) {
+  let obj = {};
+
+  return function(arg) {
+    if (!obj.hasOwnProperty(arg)) {
+      obj[arg] = cb(arg);
+    }
+    return obj[arg];
+  }
+}
 
 //----------------------------------------
 
@@ -49,7 +64,9 @@ var alumno = {
    curso: 'FullStack',
 };
 
-function getNombre() {}
+function getNombre() {
+  return this.nombre;
+}
 
 /*
   Ejercicio 3
@@ -57,19 +74,21 @@ function getNombre() {}
   Usando el método bind() guardar, en las dos variables declaradas a continuación, dos funciones que actúen como getNombre pero retornen el nombre del instructor y del alumno, respectivamente.
 */
 
-let getNombreInstructor = getNombre.bind();
-let getNombreAlumno = getNombre.bind();
+let getNombreInstructor = getNombre.bind(instructor);
+let getNombreAlumno = getNombre.bind(alumno);
 
 /*
   Ejercicio 4
   Sin modificar la función crearCadena, usar bind para guardar, en las tres variables declaradas a continuación, tres funciones que retornen una cadena (string) y el delimitador especificado (asteriscos, guiones, y guiones bajos, respectivamente). Las funciones obtenidas deberían recibir solamente un argumento - la cadena de texto - ya que los otros argumentos habrán sido "bindeados". 
 */
 
-function crearCadena(delimitadorIzquierda, delimitadorDerecha, cadena) {}
+function crearCadena(delimitadorIzquierda, delimitadorDerecha, cadena) {
+  return delimitadorIzquierda + cadena + delimitadorDerecha;
+}
 
-let textoAsteriscos = crearCadena.bind();
-let textoGuiones = crearCadena.bind();
-let textoUnderscore = crearCadena.bind();
+let textoAsteriscos = crearCadena.bind(this, '*', '*');
+let textoGuiones = crearCadena.bind(this, '-', '-');
+let textoUnderscore = crearCadena.bind(this, '_', '_');
 
 // No modifiquen nada debajo de esta linea
 // --------------------------------
