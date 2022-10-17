@@ -32,7 +32,7 @@ otra vez cálculos que ya se hicieron anteriormente.
   Ejemplo:
   function square(n){
     return n * n
-  }
+  // 
 
   const squareCache = cacheFunction(square)
 
