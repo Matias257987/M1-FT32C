@@ -16,7 +16,14 @@ const {
 
 var countArray = function(array) {
     // Tu código aca:
-    
+    let count = 0;
+
+    for (let i = 0; i < array.length; i++) {
+        if (Array.isArray(array[i])) count += countArray(array[i]);
+        else count += array[i];
+    }
+
+    return count;
 }
 
 
@@ -39,7 +46,15 @@ var countArray = function(array) {
 
 var countProps = function(obj) {
     // Tu código aca:
+    let count = 0;
 
+    for (let prop in obj) {
+        count ++;
+
+        if (typeof (obj[prop]) === "object" && !Array.isArray(obj[prop])) count += countProps(obj[prop]); 
+    }
+
+    return count;
 }
 
 
@@ -53,7 +68,19 @@ var countProps = function(obj) {
 
 LinkedList.prototype.changeNotNumbers = function(){
     // Tu código aca:
+    let count = 0;
+    let current = this.head;
 
+    while (current) {
+        if (isNaN(current.value)) {
+            current.value = "Kiricocho";
+            count++;
+        }
+
+        current = current.next;
+    }
+
+    return count;
 }
 
 
@@ -67,7 +94,17 @@ LinkedList.prototype.changeNotNumbers = function(){
 
 var mergeQueues = function(queueOne, queueTwo) {
     // Tu código aca:
+    let newQueue = new Queue();
 
+    while (queueOne.size() || queueTwo.size()) {
+        let first = queueOne.dequeue();
+        let second = queueTwo.dequeue();
+
+        if (first) newQueue.enqueue(first);
+        if (second) newQueue.enqueue(second);
+    }
+
+    return newQueue;
 }
 
 
@@ -82,13 +119,20 @@ var mergeQueues = function(queueOne, queueTwo) {
 
 var closureMult = function(multiplier) {
     // Tu código aca:
-
+    return function(n) {
+       return n * multiplier;
+    }
 }
 
 // Implementar el método sum dentro del prototype de BinarySearchTree
 // que debe retornar la suma total de los valores dentro de cada nodo del arbol
 BinarySearchTree.prototype.sum = function() {
     // Tu código aca:
+    if (!this.left && !this.right) return this.value;
+
+    if (!this.left && this.right) return this.value + this.right.sum();
+    if (this.left && !this.right) return this.value + this.left.sum();
+    if (this.left && this.right) return this.value + this.left.sum() + this.right.sum();
 
 }
 
